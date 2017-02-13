@@ -5,12 +5,12 @@ CONFIG -= qt
 
 SOURCES += \
     ../src/engine.cpp \
-    engine_test.cpp
+    engine_test.cpp \
+    system_test.cpp
 
 HEADERS += \
     ../src/engine.h \
-    ../src/debugmacros.h \
-    engine_test.h
+    ../src/debugmacros.h
 
 INCLUDEPATH += ../include ../src
 
