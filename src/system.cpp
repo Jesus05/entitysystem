@@ -1,5 +1,9 @@
 #include "system.h"
 
+SystemBase::~SystemBase()
+{
+}
+
 void SystemBase::update(const double &time)
 {
 

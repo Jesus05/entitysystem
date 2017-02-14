@@ -86,6 +86,11 @@ void Engine::update(const double &time)
   afterUpdate();
 }
 
+void Engine::removeAllSystems()
+{
+  m_systems.clear();
+}
+
 const bool &Engine::isUpdating() const
 {
   return m_isUpdating;

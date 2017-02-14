@@ -37,6 +37,8 @@ struct Engine : public std::enable_shared_from_this<Engine>
 
     void update(const double &time);
 
+    void removeAllSystems();
+
     const bool &isUpdating() const;
 };
 

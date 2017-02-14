@@ -13,6 +13,11 @@ class Engine_test : public ::testing::Test
     {
       m_eng = std::make_shared<Engine>();
     }
+    virtual void TearDown()
+    {
+      m_eng->removeAllSystems();
+      m_eng.reset();
+    }
 
     std::shared_ptr<Engine> m_eng;
 };
@@ -78,6 +83,18 @@ TEST_F(Engine_test, add_system_null)
   ASSERT_ANY_THROW(m_eng->addSystem(0, std::shared_ptr<SystemBase>()));
 }
 
+TEST_F(Engine_test, remove_all_systems)
+{
+  std::shared_ptr<SystemBase> system = std::make_shared<SystemBase>();
+  ASSERT_EQ(system.use_count(), 1);
+  m_eng->addSystem(0, system);
+  ASSERT_EQ(system.use_count(), 2);
+  m_eng->addSystem(0, system);
+  ASSERT_EQ(system.use_count(), 3);
+  m_eng->removeAllSystems();
+  ASSERT_EQ(system.use_count(), 1);
+}
+
 //TEST_F(Engine_test, remove_system_no_added)
 //{
 //  ASSERT_ANY_THROW(m_eng.removeSystem(std::make_shared<System>()));
@@ -118,9 +135,9 @@ TEST_F(Engine_test, update)
 
 TEST_F(Engine_test, update_one)
 {
-  System_mock *system = new System_mock();
-  std::shared_ptr<SystemBase> system_shared(system);
-  EXPECT_CALL(*system, update(0.0)).Times(1);
+  std::shared_ptr<System_mock> mock = std::make_shared<System_mock>();
+  std::shared_ptr<SystemBase> system_shared(mock);
+  EXPECT_CALL(*mock, update(0.0)).Times(1);
 
   m_eng->addSystem(0, system_shared);
   m_eng->update(0);

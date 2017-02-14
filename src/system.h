@@ -14,6 +14,8 @@ class SystemBase
   protected:
     std::shared_ptr<Engine> m_engine;
   public:
+    virtual ~SystemBase();
+
     virtual void update(const double &time);
     void setEngine(const std::shared_ptr<Engine> &engine);
 };
@@ -23,6 +25,8 @@ class System : public SystemBase
 {
   protected:
     static const std::array<std::type_index, sizeof...(Classes)> m_indexes;
+  public:
+    virtual ~System() { };
 };
 
 template<typename ... Classes>
