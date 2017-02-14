@@ -1,4 +1,5 @@
 #include "engine.h"
+#include "entity.h"
 
 int main()
 {

@@ -4,10 +4,14 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    engine.cpp
+    engine.cpp \
+    system.cpp \
+    entity.cpp
 
 HEADERS += \
     engine.h \
-    debugmacros.h
+    debugmacros.h \
+    system.h \
+    entity.h
 
 
