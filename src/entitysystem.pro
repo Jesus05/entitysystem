@@ -12,6 +12,7 @@ HEADERS += \
     engine.h \
     debugmacros.h \
     system.h \
-    entity.h
+    entity.h \
+    entity.hpp
 
 

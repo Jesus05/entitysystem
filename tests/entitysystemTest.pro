@@ -16,6 +16,7 @@ HEADERS += \
     ../src/debugmacros.h \
     ../src/system.h \
     ../src/entity.h \
+    ../src/entity.hpp \
     system_mock.h
 
 INCLUDEPATH += ../include ../src
