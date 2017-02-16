@@ -13,23 +13,30 @@ class SystemBase
 {
   protected:
     std::shared_ptr<Engine> m_engine;
+
+    virtual void handleEntity(const double &time, std::shared_ptr<Entity> &entity);
+    virtual void preUpdate(const double &time, std::vector<std::shared_ptr<Entity>> &entityes);
+    virtual void postUpdate(const double &time, std::vector<std::shared_ptr<Entity>> &entityes);
+
   public:
     virtual ~SystemBase();
 
-    virtual void update(const double &time);
+    void update(const double &time, std::vector<std::shared_ptr<Entity>> &entityes);
     void setEngine(const std::shared_ptr<Engine> &engine);
+    virtual const std::vector<std::type_index> &componentTypes() const;
 };
 
 template<typename ... Classes>
 class System : public SystemBase
 {
-  protected:
-    static const std::array<std::type_index, sizeof...(Classes)> m_indexes;
+  private:
+    static const std::vector<std::type_index> m_indexes;
   public:
     virtual ~System() { };
+    virtual const std::vector<std::type_index> &componentTypes() const { return m_indexes; }
 };
 
 template<typename ... Classes>
-const std::array<std::type_index, sizeof...(Classes)> System<Classes ...>::m_indexes = {typeid(std::shared_ptr<Classes>) ...};
+const std::vector<std::type_index> System<Classes ...>::m_indexes = {typeid(std::shared_ptr<Classes>) ...};
 
 #endif // SYSTEM_H

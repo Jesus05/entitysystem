@@ -23,6 +23,18 @@ INCLUDEPATH += ../include ../src
 
 LIBS += -L../lib/ -L../lib/gtest -L../lib/gmock
 
+#QMAKE_CXXFLAGS -= -O2
+#QMAKE_CXXFLAGS += -Ofast
+#QMAKE_CXXFLAGS += -Ofast
+
+#QMAKE_LFLAGS -= -O1
+#QMAKE_LFLAGS += -Ofast
+
+#QMAKE_CXXFLAGS_RELEASE -= -O2
+#QMAKE_CXXFLAGS_RELEASE += -O3
+
+#QMAKE_LFLAGS_RELEASE -= -O1
+
 CONFIG(release, debug|release):LIBS += -lgmock_main
 CONFIG(release, debug|release):LIBS += -lgtest
 CONFIG(release, debug|release):LIBS += -lgtest_main

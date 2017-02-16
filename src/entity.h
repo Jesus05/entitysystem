@@ -5,6 +5,7 @@
 #include <memory>
 #include <typeindex>
 #include <map>
+#include <vector>
 
 class Entity : public std::enable_shared_from_this<Entity>
 {
@@ -23,6 +24,7 @@ class Entity : public std::enable_shared_from_this<Entity>
     std::shared_ptr<Entity> add(std::shared_ptr<T> &component);
     template <class T>
     std::shared_ptr<T> get();
+    bool exist(const std::vector<std::type_index> &components) const;
 };
 
 ///Все что ниже вынести в entity.hpp
@@ -32,14 +34,14 @@ class Entity : public std::enable_shared_from_this<Entity>
 template<class T>
 std::shared_ptr<Entity> Entity::add(std::shared_ptr<T> &component)
 {
-  if (!add(typeid(T), component)) throw std::invalid_argument("unable to add component!");
+  if (!add(typeid(std::shared_ptr<T>), component)) throw std::invalid_argument("unable to add component!");
   return shared_from_this();
 }
 
 template<class T>
 std::shared_ptr<T> Entity::get()
 {
-  std::shared_ptr<void> temp = get(typeid(T));
+  std::shared_ptr<void> temp = get(typeid(std::shared_ptr<T>));
   if (!temp) throw std::invalid_argument("Uanble to get component!");
   return std::static_pointer_cast<T>(temp);
 }

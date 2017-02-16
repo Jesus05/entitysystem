@@ -4,6 +4,7 @@
 #include <set>
 #include <map>
 #include <memory>
+#include <vector>
 
 struct Entity;
 class SystemBase;
@@ -25,6 +26,7 @@ struct Engine : public std::enable_shared_from_this<Engine>
     bool m_isUpdating;
 
     void afterUpdate();
+    std::vector<std::shared_ptr<Entity>> getEntityesForSystem(std::shared_ptr<SystemBase> &system);
 
   public:
 

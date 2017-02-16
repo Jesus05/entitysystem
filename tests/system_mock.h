@@ -2,13 +2,15 @@
 #define SYSTEM_MOCK_H
 
 #include "system.h"
+#include "engine.h"
 
 #include "gmock/gmock.h"
 
 class System_mock : public System<>
 {
   public:
-    MOCK_METHOD1(update, void(const double &));
+    MOCK_METHOD2(preUpdate, void(const double &, std::vector<std::shared_ptr<Entity>> &));
+    MOCK_METHOD2(postUpdate, void(const double &, std::vector<std::shared_ptr<Entity>> &));
 
     bool checkEngine(const std::shared_ptr<Engine> &engine) const { return m_engine == engine; }
 };

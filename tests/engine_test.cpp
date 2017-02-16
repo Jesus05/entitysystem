@@ -5,6 +5,8 @@
 #include "system_mock.h"
 
 using ::testing::_;
+using ::testing::Invoke;
+using ::testing::InvokeWithoutArgs;
 
 class Engine_test : public ::testing::Test
 {
@@ -137,7 +139,8 @@ TEST_F(Engine_test, update_one)
 {
   std::shared_ptr<System_mock> mock = std::make_shared<System_mock>();
   std::shared_ptr<SystemBase> system_shared(mock);
-  EXPECT_CALL(*mock, update(0.0)).Times(1);
+  EXPECT_CALL(*mock, preUpdate(0.0, _)).Times(1);
+  EXPECT_CALL(*mock, postUpdate(0.0, _)).Times(1);
 
   m_eng->addSystem(0, system_shared);
   m_eng->update(0);
@@ -151,8 +154,8 @@ TEST_F (Engine_test, update_2_system)
   std::shared_ptr<SystemBase> system_shared(system);
   std::shared_ptr<SystemBase> system_shared2(system2);
 
-  EXPECT_CALL(*system, update(_)).Times(1);
-  EXPECT_CALL(*system2, update(_)).Times(1);
+  EXPECT_CALL(*system, preUpdate(_, _)).Times(1);
+  EXPECT_CALL(*system2, preUpdate(_, _)).Times(1);
 
   m_eng->addSystem(0, system_shared);
   m_eng->addSystem(0, system_shared2);
@@ -171,8 +174,8 @@ TEST_F(Engine_test, update_priority)
   {
     ::testing::InSequence dummy;
 
-    EXPECT_CALL(*system, update(_)).Times(1);
-    EXPECT_CALL(*system2, update(_)).Times(1);
+    EXPECT_CALL(*system, preUpdate(_, _)).Times(1);
+    EXPECT_CALL(*system2, preUpdate(_, _)).Times(1);
   }
 
   m_eng->addSystem(0, system_shared);
@@ -187,7 +190,7 @@ TEST_F(Engine_test, update_double_system)
 
   std::shared_ptr<SystemBase> system_shared(system);
 
-  EXPECT_CALL(*system, update(_)).Times(2);
+  EXPECT_CALL(*system, preUpdate(_, _)).Times(2);
 
   m_eng->addSystem(0, system_shared);
   m_eng->addSystem(0, system_shared);
@@ -203,4 +206,87 @@ TEST_F(Engine_test, setParent)
   m_eng->addSystem(0, system_shared);
 
   ASSERT_TRUE(system->checkEngine(m_eng));
+}
+
+TEST_F(Engine_test, check_is_update)
+{
+  std::shared_ptr<System_mock> mock = std::make_shared<System_mock>();
+
+  ASSERT_FALSE(m_eng->isUpdating());
+
+  auto tt = [&]() { ASSERT_TRUE(m_eng->isUpdating()); };
+
+  EXPECT_CALL(*mock, preUpdate(_, _));
+
+  ON_CALL(*mock, preUpdate(_, _)).WillByDefault(InvokeWithoutArgs(tt));
+
+  m_eng->addSystem(0, mock);
+
+  m_eng->update(0.0);
+}
+
+TEST_F(Engine_test, add_system_in_update)
+{
+  std::shared_ptr<System_mock> mock = std::make_shared<System_mock>();
+  std::shared_ptr<System_mock> mock2 = std::make_shared<System_mock>();
+  std::shared_ptr<System_mock> mock3 = std::make_shared<System_mock>();
+  std::shared_ptr<System_mock> mock4 = std::make_shared<System_mock>();
+
+  m_eng->addSystem(1, mock);
+  m_eng->addSystem(4, mock4);
+
+  auto tt = [&]() { m_eng->addSystem(3, mock3); };
+  auto tt4 = [&]() { m_eng->addSystem(2, mock2); };
+
+  EXPECT_CALL(*mock, preUpdate(_, _)).Times(1);
+  EXPECT_CALL(*mock2, preUpdate(_, _)).Times(0);
+  EXPECT_CALL(*mock3, preUpdate(_, _)).Times(1);
+  EXPECT_CALL(*mock4, preUpdate(_, _)).Times(1);
+
+  ON_CALL(*mock, preUpdate(_, _)).WillByDefault(InvokeWithoutArgs(tt));
+  ON_CALL(*mock4, preUpdate(_, _)).WillByDefault(InvokeWithoutArgs(tt4));
+
+  m_eng->update(0.0);
+}
+
+TEST_F(Engine_test, remove_system_in_update)
+{
+  std::shared_ptr<System_mock> mock = std::make_shared<System_mock>();
+  std::shared_ptr<System_mock> mock2 = std::make_shared<System_mock>();
+  std::shared_ptr<System_mock> mock3 = std::make_shared<System_mock>();
+
+  m_eng->addSystem(1, mock);
+  m_eng->addSystem(2, mock2);
+  m_eng->addSystem(3, mock3);
+
+  auto tt = [&]() { m_eng->removeSystem(mock2); m_eng->removeSystem(mock3); };
+
+  EXPECT_CALL(*mock, preUpdate(_, _)).Times(2);
+  EXPECT_CALL(*mock2, preUpdate(_, _)).Times(1);
+  EXPECT_CALL(*mock3, preUpdate(_, _)).Times(1);
+  ON_CALL(*mock, preUpdate(_, _)).WillByDefault(InvokeWithoutArgs(tt));
+
+  m_eng->update(0.0);
+  m_eng->update(0.0); //Ожидаеться что 2 системы не удасться удалить (вывод в cerr)
+}
+
+TEST_F(Engine_test, remove_all_system_in_update)
+{
+  std::shared_ptr<System_mock> mock = std::make_shared<System_mock>();
+  std::shared_ptr<System_mock> mock2 = std::make_shared<System_mock>();
+  std::shared_ptr<System_mock> mock3 = std::make_shared<System_mock>();
+
+  m_eng->addSystem(1, mock);
+  m_eng->addSystem(2, mock2);
+  m_eng->addSystem(3, mock3);
+
+  auto tt = [&]() { m_eng->removeAllSystems(); };
+
+  EXPECT_CALL(*mock, preUpdate(_, _)).Times(1);
+  EXPECT_CALL(*mock2, preUpdate(_, _)).Times(1);
+  EXPECT_CALL(*mock3, preUpdate(_, _)).Times(1);
+  ON_CALL(*mock, preUpdate(_, _)).WillByDefault(InvokeWithoutArgs(tt));
+
+  m_eng->update(0.0);
+  m_eng->update(0.0);
 }

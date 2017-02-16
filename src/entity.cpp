@@ -26,6 +26,16 @@ const std::string &Entity::name()
   return m_name;
 }
 
+bool Entity::exist(const std::vector<std::type_index> &components) const
+{
+  if (components.size() == 0) return true;
+  for (const std::type_index &index : components)
+  {
+    if (m_componentMap.count(index) == 0) return false; //Как минимум 1 компонента нет
+  }
+  return true; //Все компоненты есть
+}
+
 std::shared_ptr<void> Entity::get(const std::type_index &index)
 {
   if (m_componentMap.count(index) == 0)
