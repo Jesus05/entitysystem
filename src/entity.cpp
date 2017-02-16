@@ -28,6 +28,7 @@ const std::string &Entity::name()
 
 bool Entity::exist(const std::vector<std::type_index> &components) const
 {
+  if (m_componentMap.size() == 0) return false; //Если компонентов нет вообще, то такая сущность ненужна не одной системе
   if (components.size() == 0) return true;
   for (const std::type_index &index : components)
   {

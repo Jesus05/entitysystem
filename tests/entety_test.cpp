@@ -74,7 +74,7 @@ TEST_F(Entity_test, component_exist)
   std::vector<std::type_index> both1 = {typeid(std::shared_ptr<Place>), typeid(std::shared_ptr<Draw>)};
   std::vector<std::type_index> both2 = {typeid(std::shared_ptr<Draw>), typeid(std::shared_ptr<Place>)};
 
-  ASSERT_TRUE(ent->exist(empty));
+  ASSERT_FALSE(ent->exist(empty));
   ASSERT_FALSE(ent->exist(onlyPlace));
   ASSERT_FALSE(ent->exist(onlyDraw));
   ASSERT_FALSE(ent->exist(both1));

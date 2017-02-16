@@ -1,40 +1,49 @@
 #include "engine.h"
 #include "entity.h"
+#include "system.h"
+
+struct Draw
+{
+};
+
+struct Place
+{
+    int x;
+    int y;
+    int z;
+};
+
+struct Velocity
+{
+    int x;
+    int y;
+    int z;
+};
+
+struct Accelerator
+{
+    int x;
+    int y;
+    int z;
+};
+
+struct SaveSystem : public System<>
+{
+    void handleEntity(const double &time, std::shared_ptr<Entity> &entity)
+    {
+      std::shared_ptr<Draw> draw = entity->get<Draw>();
+      std::shared_ptr<Place> place = entity->get<Place>();
+      std::shared_ptr<Velocity> velocity = entity->get<Velocity>();
+      std::shared_ptr<Accelerator> accelerator = entity->get<Accelerator>();
+
+    }
+}
 
 int main()
 {
-  Engine eng;
-  eng.addEntity(std::make_shared<Entity>());
-  eng.addEntity(std::make_shared<Entity>());
+  std::shared_ptr<Engine> engine = std::make_shared<Engine>();
+
+
 
   return 0;
 }
-
-
-//#include <iostream>
-
-//using namespace std;
-
-//#include <set>
-//#include <map>
-//#include <string>
-//#include <memory>
-
-//template<typename T>
-//struct Observer
-//{
-//  std::set<T> handlers;
-//  void add(T &handler) { handlers.insert(handler); }
-//  void remove(T &handler) { handlers.erase(handler); }
-//  //Handle??
-//};
-
-//struct Component
-//{
-//};
-
-//int main(int /*argc*/, char */*argv*/[])
-//{
-//  cout << "Hello World!" << endl;
-//  return 0;
-//}
