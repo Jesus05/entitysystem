@@ -3,3 +3,5 @@ syntax: glob
 *.pro.user
 *Release/
 *Release*/
+*Profile/
+*/html/

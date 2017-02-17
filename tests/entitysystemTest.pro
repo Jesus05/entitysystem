@@ -9,7 +9,7 @@ SOURCES += \
     ../src/entity.cpp \
     engine_test.cpp \
     system_test.cpp \
-    entety_test.cpp
+    entity_test.cpp
 
 HEADERS += \
     ../src/engine.h \

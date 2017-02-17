@@ -98,3 +98,70 @@ TEST_F(Entity_test, component_exist)
   ASSERT_TRUE(ent->exist(both1));
   ASSERT_TRUE(ent->exist(both2));
 }
+
+TEST_F(Entity_test, component_remove)
+{
+  std::shared_ptr<Entity> ent = std::make_shared<Entity>();
+  std::shared_ptr<Place> place = std::make_shared<Place>();
+  std::shared_ptr<Draw> draw = std::make_shared<Draw>();
+  std::vector<std::type_index> empty;
+  std::vector<std::type_index> onlyPlace = {typeid(std::shared_ptr<Place>)};
+  std::vector<std::type_index> onlyDraw = {typeid(std::shared_ptr<Draw>)};
+  std::vector<std::type_index> both1 = {typeid(std::shared_ptr<Place>), typeid(std::shared_ptr<Draw>)};
+  std::vector<std::type_index> both2 = {typeid(std::shared_ptr<Draw>), typeid(std::shared_ptr<Place>)};
+
+  ent->add(place)->add(draw);
+  ASSERT_TRUE(ent->exist(empty));
+  ASSERT_TRUE(ent->exist(onlyPlace));
+  ASSERT_TRUE(ent->exist(onlyDraw));
+  ASSERT_TRUE(ent->exist(both1));
+  ASSERT_TRUE(ent->exist(both2));
+  ASSERT_NO_THROW(ent->remove<Place>());
+  ASSERT_TRUE(ent->exist(empty));
+  ASSERT_FALSE(ent->exist(onlyPlace));
+  ASSERT_TRUE(ent->exist(onlyDraw));
+  ASSERT_FALSE(ent->exist(both1));
+  ASSERT_FALSE(ent->exist(both2));
+  ASSERT_ANY_THROW(ent->remove<Place>());
+  ASSERT_TRUE(ent->exist(empty));
+  ASSERT_FALSE(ent->exist(onlyPlace));
+  ASSERT_TRUE(ent->exist(onlyDraw));
+  ASSERT_FALSE(ent->exist(both1));
+  ASSERT_FALSE(ent->exist(both2));
+  ent->remove<Draw>();
+  ASSERT_FALSE(ent->exist(empty));
+  ASSERT_FALSE(ent->exist(onlyPlace));
+  ASSERT_FALSE(ent->exist(onlyDraw));
+  ASSERT_FALSE(ent->exist(both1));
+  ASSERT_FALSE(ent->exist(both2));
+}
+
+TEST_F(Entity_test, component_exist2)
+{
+  std::shared_ptr<Entity> ent = std::make_shared<Entity>();
+  std::shared_ptr<Place> place = std::make_shared<Place>();
+  std::shared_ptr<Draw> draw = std::make_shared<Draw>();
+
+  ASSERT_FALSE(ent->exist<Place>());
+  ASSERT_FALSE(ent->exist<Draw>());
+  ent->add(place);
+  ASSERT_TRUE(ent->exist<Place>());
+  ASSERT_FALSE(ent->exist<Draw>());
+  ent->add(draw);
+  ASSERT_TRUE(ent->exist<Place>());
+  ASSERT_TRUE(ent->exist<Draw>());
+}
+
+TEST_F(Entity_test, component_usafeGet)
+{
+  std::shared_ptr<Entity> ent = std::make_shared<Entity>();
+  std::shared_ptr<Place> place = std::make_shared<Place>();
+  std::shared_ptr<Draw> draw = std::make_shared<Draw>();
+
+  ASSERT_FALSE(ent->unsafeGet<Place>());
+  ASSERT_FALSE(ent->unsafeGet<Draw>());
+  ent->add(place);
+  ASSERT_EQ(ent->unsafeGet<Place>(), place);
+  ent->add(draw);
+  ASSERT_EQ(ent->unsafeGet<Draw>(), draw);
+}

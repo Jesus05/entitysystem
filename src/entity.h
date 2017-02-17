@@ -25,6 +25,12 @@ class Entity : public std::enable_shared_from_this<Entity>
     template <class T>
     std::shared_ptr<T> get();
     bool exist(const std::vector<std::type_index> &components) const;
+    template<class T>
+    bool exist() const;
+    template <class T>
+    inline std::shared_ptr<T> unsafeGet();
+    template<class T>
+    void remove();
 };
 
 ///Все что ниже вынести в entity.hpp
@@ -44,6 +50,26 @@ std::shared_ptr<T> Entity::get()
   std::shared_ptr<void> temp = get(typeid(std::shared_ptr<T>));
   if (!temp) throw std::invalid_argument("Uanble to get component!");
   return std::static_pointer_cast<T>(temp);
+}
+
+template<class T>
+bool Entity::exist() const
+{
+  return m_componentMap.count(typeid(std::shared_ptr<T>)) != 0;
+}
+
+template<class T>
+inline std::shared_ptr<T> Entity::unsafeGet()
+{
+  if (exist<T>()) return std::static_pointer_cast<T>(get(typeid(std::shared_ptr<T>)));
+  return std::shared_ptr<T>();
+}
+
+template<class T>
+void Entity::remove()
+{
+  if (exist<T>()) m_componentMap.erase(typeid(std::shared_ptr<T>));
+  else throw std::invalid_argument("Uanble to remove component!");
 }
 
 #include "entity.hpp"

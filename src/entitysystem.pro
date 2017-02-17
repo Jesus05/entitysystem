@@ -15,4 +15,4 @@ HEADERS += \
     entity.h \
     entity.hpp
 
-
+QMAKE_LFLAGS += -Wl,-Map=myfile.map
