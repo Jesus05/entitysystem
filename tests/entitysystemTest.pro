@@ -10,7 +10,8 @@ SOURCES += \
     ../src/typeindexer.cpp \
     engine_test.cpp \
     system_test.cpp \
-    entity_test.cpp
+    entity_test.cpp \
+    speed_test.cpp
 
 HEADERS += \
     ../src/engine.h \
