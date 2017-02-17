@@ -27,6 +27,7 @@ class Entity : public std::enable_shared_from_this<Entity>
     template <class T>
     std::shared_ptr<T> get();
     bool exist(const std::vector<long long> &components) const;
+    std::vector<std::shared_ptr<void>> get(const std::vector<long long> &components) const;
     template<class T>
     bool exist() const;
     template <class T>

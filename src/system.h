@@ -7,6 +7,7 @@
 #include <array>
 #include <typeindex>
 #include <memory>
+#include <tuple>
 
 class Engine;
 class Entity;
@@ -34,6 +35,7 @@ class System : public SystemBase
   private:
     static const std::vector<long long> m_indexes;
   public:
+    typedef std::tuple<std::shared_ptr<Classes> ..., std::shared_ptr<Entity>> NodeType;
     virtual ~System() { };
     virtual const std::vector<long long> &componentTypes() const { return m_indexes; }
 };

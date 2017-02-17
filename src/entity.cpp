@@ -38,6 +38,18 @@ bool Entity::exist(const std::vector<long long> &components) const
   return true; //Все компоненты есть
 }
 
+std::vector<std::shared_ptr<void>> Entity::get(const std::vector<long long> &components) const
+{
+  std::vector<std::shared_ptr<void> > vector;
+  if (m_componentMap.size() == 0 || components.size() == 0) return vector;
+  for (const long long &index : components)
+  {
+    if (m_componentMap.count(index) == 0) return std::vector<std::shared_ptr<void> >(); //Как минимум 1 компонента нет
+    vector.push_back(m_componentMap.at(index));
+  }
+  return vector;
+}
+
 std::shared_ptr<void> Entity::get(const std::type_index &index)
 {
   const long long innerIndex = TypeIndexer::index(index);
