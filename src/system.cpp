@@ -34,8 +34,8 @@ void SystemBase::setEngine(const std::shared_ptr<Engine> &engine)
   m_engine = engine;
 }
 
-const std::vector<std::type_index> &SystemBase::componentTypes() const
+const std::vector<long long> &SystemBase::componentTypes() const
 {
-  static std::vector<std::type_index> components;
+  static std::vector<long long> components;
   return components;
 }

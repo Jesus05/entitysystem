@@ -1,6 +1,8 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+#include "typeindexer.h"
+
 #include <vector>
 #include <array>
 #include <typeindex>
@@ -23,20 +25,20 @@ class SystemBase
 
     void update(const double &time, std::vector<std::shared_ptr<Entity>> &entityes);
     void setEngine(const std::shared_ptr<Engine> &engine);
-    virtual const std::vector<std::type_index> &componentTypes() const;
+    virtual const std::vector<long long> &componentTypes() const;
 };
 
 template<typename ... Classes>
 class System : public SystemBase
 {
   private:
-    static const std::vector<std::type_index> m_indexes;
+    static const std::vector<long long> m_indexes;
   public:
     virtual ~System() { };
-    virtual const std::vector<std::type_index> &componentTypes() const { return m_indexes; }
+    virtual const std::vector<long long> &componentTypes() const { return m_indexes; }
 };
 
 template<typename ... Classes>
-const std::vector<std::type_index> System<Classes ...>::m_indexes = {typeid(std::shared_ptr<Classes>) ...};
+const std::vector<long long> System<Classes ...>::m_indexes = {TypeIndexer::index(typeid(std::shared_ptr<Classes>)) ...};
 
 #endif // SYSTEM_H

@@ -6,13 +6,15 @@ CONFIG -= qt
 SOURCES += main.cpp \
     engine.cpp \
     system.cpp \
-    entity.cpp
+    entity.cpp \
+    typeindexer.cpp
 
 HEADERS += \
     engine.h \
     debugmacros.h \
     system.h \
     entity.h \
-    entity.hpp
+    entity.hpp \
+    typeindexer.h
 
 QMAKE_LFLAGS += -Wl,-Map=myfile.map

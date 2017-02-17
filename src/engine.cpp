@@ -40,7 +40,7 @@ void Engine::afterUpdate()
 std::vector<std::shared_ptr<Entity> > Engine::getEntityesForSystem(std::shared_ptr<SystemBase> &system)
 {
   std::vector<std::shared_ptr<Entity> > entityes;
-  const std::vector<std::type_index> componentsRequested = system->componentTypes();
+  const std::vector<long long> componentsRequested = system->componentTypes();
   for (auto &pair : m_entityes)
   {
     std::shared_ptr<Entity> &entity = pair.second;
@@ -85,6 +85,10 @@ void Engine::addSystem(const int &priority, std::shared_ptr<SystemBase> system)
     throw std::invalid_argument("System is null!");
   }
   m_systems.insert(std::make_pair(priority, system));
+//  std::sort(m_systems.begin(), m_systems.end(), [](const TSystemPair &one, const TSystemPair &two)
+//  {
+//    return one.first < two.first;
+//  });
   system->setEngine(shared_from_this());
 }
 

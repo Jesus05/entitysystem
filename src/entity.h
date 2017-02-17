@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include "typeindexer.h"
+
 #include <string>
 #include <memory>
 #include <typeindex>
@@ -12,7 +14,7 @@ class Entity : public std::enable_shared_from_this<Entity>
   private:
     std::string m_name;
     static int nameNumber;
-    std::map<std::type_index, std::shared_ptr<void>> m_componentMap;
+    std::map<long long, std::shared_ptr<void>> m_componentMap;
 
     bool add(const std::type_index &index, std::shared_ptr<void> ptr);
     std::shared_ptr<void> get(const std::type_index &index);
@@ -24,7 +26,7 @@ class Entity : public std::enable_shared_from_this<Entity>
     std::shared_ptr<Entity> add(std::shared_ptr<T> &component);
     template <class T>
     std::shared_ptr<T> get();
-    bool exist(const std::vector<std::type_index> &components) const;
+    bool exist(const std::vector<long long> &components) const;
     template<class T>
     bool exist() const;
     template <class T>
@@ -55,7 +57,7 @@ std::shared_ptr<T> Entity::get()
 template<class T>
 bool Entity::exist() const
 {
-  return m_componentMap.count(typeid(std::shared_ptr<T>)) != 0;
+  return m_componentMap.count(TypeIndexer::index(typeid(std::shared_ptr<T>))) != 0;
 }
 
 template<class T>
@@ -68,7 +70,7 @@ inline std::shared_ptr<T> Entity::unsafeGet()
 template<class T>
 void Entity::remove()
 {
-  if (exist<T>()) m_componentMap.erase(typeid(std::shared_ptr<T>));
+  if (exist<T>()) m_componentMap.erase(TypeIndexer::index(typeid(std::shared_ptr<T>)));
   else throw std::invalid_argument("Uanble to remove component!");
 }
 

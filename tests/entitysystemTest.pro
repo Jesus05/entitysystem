@@ -7,6 +7,7 @@ SOURCES += \
     ../src/engine.cpp \
     ../src/system.cpp \
     ../src/entity.cpp \
+    ../src/typeindexer.cpp \
     engine_test.cpp \
     system_test.cpp \
     entity_test.cpp
@@ -17,6 +18,7 @@ HEADERS += \
     ../src/system.h \
     ../src/entity.h \
     ../src/entity.hpp \
+    ../src/typeindexer.h \
     system_mock.h
 
 INCLUDEPATH += ../include ../src
@@ -37,12 +39,12 @@ LIBS += -L../lib/ -L../lib/gtest -L../lib/gmock
 
 CONFIG(release, debug|release):LIBS += -lgmock_main
 CONFIG(release, debug|release):LIBS += -lgtest
-CONFIG(release, debug|release):LIBS += -lgtest_main
+#CONFIG(release, debug|release):LIBS += -lgtest_main
 CONFIG(release, debug|release):LIBS += -lgmock
 
 
 CONFIG(debug, debug|release):LIBS += -lgmock_maind
 CONFIG(debug, debug|release):LIBS += -lgtestd
-CONFIG(debug, debug|release):LIBS += -lgtest_maind
+#CONFIG(debug, debug|release):LIBS += -lgtest_maind
 CONFIG(debug, debug|release):LIBS += -lgmockd
 

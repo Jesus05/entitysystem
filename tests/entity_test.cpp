@@ -68,11 +68,11 @@ TEST_F(Entity_test, component_exist)
   std::shared_ptr<Entity> ent2 = std::make_shared<Entity>();
   std::shared_ptr<Place> place = std::make_shared<Place>();
   std::shared_ptr<Draw> draw = std::make_shared<Draw>();
-  std::vector<std::type_index> empty;
-  std::vector<std::type_index> onlyPlace = {typeid(std::shared_ptr<Place>)};
-  std::vector<std::type_index> onlyDraw = {typeid(std::shared_ptr<Draw>)};
-  std::vector<std::type_index> both1 = {typeid(std::shared_ptr<Place>), typeid(std::shared_ptr<Draw>)};
-  std::vector<std::type_index> both2 = {typeid(std::shared_ptr<Draw>), typeid(std::shared_ptr<Place>)};
+  std::vector<long long> empty;
+  std::vector<long long> onlyPlace = {TypeIndexer::index(typeid(std::shared_ptr<Place>))};
+  std::vector<long long> onlyDraw = {TypeIndexer::index(typeid(std::shared_ptr<Draw>))};
+  std::vector<long long> both1 = {TypeIndexer::index(typeid(std::shared_ptr<Place>)), TypeIndexer::index(typeid(std::shared_ptr<Draw>))};
+  std::vector<long long> both2 = {TypeIndexer::index(typeid(std::shared_ptr<Draw>)), TypeIndexer::index(typeid(std::shared_ptr<Place>))};
 
   ASSERT_FALSE(ent->exist(empty));
   ASSERT_FALSE(ent->exist(onlyPlace));
@@ -104,11 +104,11 @@ TEST_F(Entity_test, component_remove)
   std::shared_ptr<Entity> ent = std::make_shared<Entity>();
   std::shared_ptr<Place> place = std::make_shared<Place>();
   std::shared_ptr<Draw> draw = std::make_shared<Draw>();
-  std::vector<std::type_index> empty;
-  std::vector<std::type_index> onlyPlace = {typeid(std::shared_ptr<Place>)};
-  std::vector<std::type_index> onlyDraw = {typeid(std::shared_ptr<Draw>)};
-  std::vector<std::type_index> both1 = {typeid(std::shared_ptr<Place>), typeid(std::shared_ptr<Draw>)};
-  std::vector<std::type_index> both2 = {typeid(std::shared_ptr<Draw>), typeid(std::shared_ptr<Place>)};
+  std::vector<long long> empty;
+  std::vector<long long> onlyPlace = {TypeIndexer::index(typeid(std::shared_ptr<Place>))};
+  std::vector<long long> onlyDraw = {TypeIndexer::index(typeid(std::shared_ptr<Draw>))};
+  std::vector<long long> both1 = {TypeIndexer::index(typeid(std::shared_ptr<Place>)), TypeIndexer::index(typeid(std::shared_ptr<Draw>))};
+  std::vector<long long> both2 = {TypeIndexer::index(typeid(std::shared_ptr<Draw>)), TypeIndexer::index(typeid(std::shared_ptr<Place>))};
 
   ent->add(place)->add(draw);
   ASSERT_TRUE(ent->exist(empty));
