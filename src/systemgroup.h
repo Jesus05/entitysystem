@@ -2,6 +2,7 @@
 #define SYSTEMGROUP_H
 
 #include "system.h"
+#include "engine.h"
 
 template<typename ... Classes>
 class SystemSub : public System<Classes...>
