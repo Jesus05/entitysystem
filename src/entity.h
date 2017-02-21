@@ -23,7 +23,7 @@ class Entity : public std::enable_shared_from_this<Entity>
     Entity(const std::string &name = "");
     const std::string &name();
     template <class T>
-    std::shared_ptr<Entity> add(std::shared_ptr<T> &component);
+    std::shared_ptr<Entity> add(std::shared_ptr<T> component);
     template <class T>
     std::shared_ptr<T> get();
     bool exist(const std::vector<long long> &components) const;
@@ -41,7 +41,7 @@ class Entity : public std::enable_shared_from_this<Entity>
 #include <iostream>
 
 template<class T>
-std::shared_ptr<Entity> Entity::add(std::shared_ptr<T> &component)
+std::shared_ptr<Entity> Entity::add(std::shared_ptr<T> component)
 {
   if (!add(typeid(std::shared_ptr<T>), component)) throw std::invalid_argument("unable to add component!");
   return shared_from_this();
