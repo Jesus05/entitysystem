@@ -89,7 +89,7 @@ void Engine::addSystem(const int &priority, std::shared_ptr<SystemBase> system)
 //  {
 //    return one.first < two.first;
 //  });
-  system->setEngine(shared_from_this());
+  system->setEngine(shared_from_this(), priority);
 }
 
 void Engine::removeSystem(std::shared_ptr<SystemBase> system)

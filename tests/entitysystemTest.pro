@@ -11,7 +11,8 @@ SOURCES += \
     engine_test.cpp \
     system_test.cpp \
     entity_test.cpp \
-    speed_test.cpp
+    speed_test.cpp \
+    system_group_test.cpp
 
 HEADERS += \
     ../src/engine.h \
@@ -20,6 +21,7 @@ HEADERS += \
     ../src/entity.h \
     ../src/entity.hpp \
     ../src/typeindexer.h \
+    ../src/systemgroup.h \
     system_mock.h
 
 INCLUDEPATH += ../include ../src

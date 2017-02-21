@@ -16,6 +16,7 @@ HEADERS += \
     system.h \
     entity.h \
     entity.hpp \
-    typeindexer.h
+    typeindexer.h \
+    systemgroup.h
 
 QMAKE_LFLAGS += -Wl,-Map=myfile.map
