@@ -78,6 +78,8 @@ TEST(System_group_test, test)
   std::shared_ptr<Collision> bulletCollision = std::make_shared<Collision>();
   std::shared_ptr<Entity> asteroid = std::make_shared<Entity>();
   std::shared_ptr<Entity> bullet = std::make_shared<Entity>();
+  std::shared_ptr<Entity> emptyEntity = std::make_shared<Entity>();
+  emptyEntity->add(asteroidC);
 
   EXPECT_CALL(*asteroidC, checkMoc()).Times(1);
   EXPECT_CALL(*asteroidPosition, checkMoc()).Times(1);

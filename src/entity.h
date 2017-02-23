@@ -43,7 +43,8 @@ class Entity : public std::enable_shared_from_this<Entity>
 template<class T>
 std::shared_ptr<Entity> Entity::add(std::shared_ptr<T> component)
 {
-  if (!add(typeid(std::shared_ptr<T>), component)) throw std::invalid_argument("unable to add component!");
+  if (!component) throw std::invalid_argument(std::string("unable to add NULL component! ") + typeid(T).name());
+  if (!add(typeid(std::shared_ptr<T>), component)) throw std::invalid_argument(std::string("unable to add component! ") + typeid(T).name());
   return shared_from_this();
 }
 
@@ -51,7 +52,7 @@ template<class T>
 std::shared_ptr<T> Entity::get()
 {
   std::shared_ptr<void> temp = get(typeid(std::shared_ptr<T>));
-  if (!temp) throw std::invalid_argument("Uanble to get component!");
+  if (!temp) throw std::invalid_argument(std::string("Uanble to get component! ") + typeid(T).name());
   return std::static_pointer_cast<T>(temp);
 }
 
@@ -72,7 +73,7 @@ template<class T>
 void Entity::remove()
 {
   if (exist<T>()) m_componentMap.erase(TypeIndexer::index(typeid(std::shared_ptr<T>)));
-  else throw std::invalid_argument("Uanble to remove component!");
+  else throw std::invalid_argument(std::string("Uanble to remove component! ") + typeid(T).name());
 }
 
 #include "entity.hpp"
