@@ -50,6 +50,14 @@ std::vector<std::shared_ptr<void>> Entity::get(const std::vector<long long> &com
   return vector;
 }
 
+void Entity::addAndUpdate(std::shared_ptr<Entity> &entity)
+{
+  for (std::pair<const long long, std::shared_ptr<void>> &pair : entity->m_componentMap)
+  {
+    m_componentMap[pair.first] = pair.second;
+  }
+}
+
 std::shared_ptr<void> Entity::get(const std::type_index &index)
 {
   const long long innerIndex = TypeIndexer::index(index);

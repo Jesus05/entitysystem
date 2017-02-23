@@ -8,7 +8,8 @@ SOURCES += main.cpp \
     engine.cpp \
     system.cpp \
     entity.cpp \
-    typeindexer.cpp
+    typeindexer.cpp \
+    entitystatemachine.cpp
 
 HEADERS += \
     engine.h \
@@ -17,6 +18,7 @@ HEADERS += \
     entity.h \
     entity.hpp \
     typeindexer.h \
-    systemgroup.h
+    systemgroup.h \
+    entitystatemachine.h
 
 QMAKE_LFLAGS += -Wl,-Map=myfile.map

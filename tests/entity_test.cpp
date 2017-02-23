@@ -165,3 +165,19 @@ TEST_F(Entity_test, component_usafeGet)
   ent->add(draw);
   ASSERT_EQ(ent->unsafeGet<Draw>(), draw);
 }
+
+TEST_F(Entity_test, add_and_update)
+{
+  std::shared_ptr<Entity> ent = std::make_shared<Entity>();
+  std::shared_ptr<Entity> ent2 = std::make_shared<Entity>();
+  std::shared_ptr<Place> place = std::make_shared<Place>();
+  std::shared_ptr<Place> place2 = std::make_shared<Place>();
+  std::shared_ptr<Draw> draw2 = std::make_shared<Draw>();
+
+  ent->add(place);
+  ent2->add(place2)->add(draw2);
+
+  ent->addAndUpdate(ent2);
+  ASSERT_TRUE(ent->exist<Draw>());
+  ASSERT_EQ(ent->get<Place>(), place2);
+}

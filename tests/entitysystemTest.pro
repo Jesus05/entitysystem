@@ -8,11 +8,13 @@ SOURCES += \
     ../src/system.cpp \
     ../src/entity.cpp \
     ../src/typeindexer.cpp \
+    ../src/entitystatemachine.cpp \
     engine_test.cpp \
     system_test.cpp \
     entity_test.cpp \
     speed_test.cpp \
-    system_group_test.cpp
+    system_group_test.cpp \
+    entitystatemachine_test.cpp
 
 HEADERS += \
     ../src/engine.h \
@@ -22,6 +24,7 @@ HEADERS += \
     ../src/entity.hpp \
     ../src/typeindexer.h \
     ../src/systemgroup.h \
+    ../src/entitystatemachine.h \
     system_mock.h
 
 INCLUDEPATH += ../include ../src
