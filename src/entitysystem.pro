@@ -22,3 +22,7 @@ HEADERS += \
     entitystatemachine.h
 
 QMAKE_LFLAGS += -Wl,-Map=myfile.map
+
+CONFIG(debug, debug|release):TARGET = entitysystemd
+
+DESTDIR = ..\lib\

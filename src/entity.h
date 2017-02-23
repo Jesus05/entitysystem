@@ -35,6 +35,7 @@ class Entity : public std::enable_shared_from_this<Entity>
     template<class T>
     void remove();
     void addAndUpdate(std::shared_ptr<Entity> &entity);
+    void removeOther(std::shared_ptr<Entity> &entity);
 };
 
 ///Все что ниже вынести в entity.hpp

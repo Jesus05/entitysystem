@@ -181,3 +181,19 @@ TEST_F(Entity_test, add_and_update)
   ASSERT_TRUE(ent->exist<Draw>());
   ASSERT_EQ(ent->get<Place>(), place2);
 }
+
+TEST_F(Entity_test, remove_other)
+{
+  std::shared_ptr<Entity> ent = std::make_shared<Entity>();
+  std::shared_ptr<Entity> ent2 = std::make_shared<Entity>();
+  std::shared_ptr<Place> place = std::make_shared<Place>();
+  std::shared_ptr<Place> place2 = std::make_shared<Place>();
+  std::shared_ptr<Draw> draw2 = std::make_shared<Draw>();
+
+  ent->add(place);
+  ent2->add(place2)->add(draw2);
+
+  ent2->removeOther(ent);
+  ASSERT_TRUE(ent2->exist<Draw>());
+  ASSERT_FALSE(ent2->exist<Place>());
+}

@@ -58,6 +58,14 @@ void Entity::addAndUpdate(std::shared_ptr<Entity> &entity)
   }
 }
 
+void Entity::removeOther(std::shared_ptr<Entity> &entity)
+{
+  for (std::pair<const long long, std::shared_ptr<void>> &pair : entity->m_componentMap)
+  {
+    m_componentMap.erase(pair.first);
+  }
+}
+
 std::shared_ptr<void> Entity::get(const std::type_index &index)
 {
   const long long innerIndex = TypeIndexer::index(index);
