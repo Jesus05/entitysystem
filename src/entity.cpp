@@ -19,7 +19,7 @@ bool Entity::add(const std::type_index &index, std::shared_ptr<void> ptr)
 Entity::Entity(const std::string &name) :
   m_name(name)
 {
-  if (m_name == "") m_name = std::string("Entity_") + std::to_string(nameNumber++);
+  if (m_name == "") m_name = std::string("Entity_") + static_cast<char>('0' + nameNumber++);
 }
 
 const std::string &Entity::name()

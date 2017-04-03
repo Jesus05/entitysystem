@@ -23,6 +23,16 @@ HEADERS += \
 
 QMAKE_LFLAGS += -Wl,-Map=myfile.map
 
-CONFIG(debug, debug|release):TARGET = entitysystemd
-
 DESTDIR = ..\lib\
+
+android {
+    CONFIG(release, debug|release):TARGET = entitysystemandroid
+
+    CONFIG(debug, debug|release):TARGET = entitysystemandroidd
+}
+
+win32 {
+    CONFIG(release, debug|release):TARGET = entitysystem
+
+    CONFIG(debug, debug|release):TARGET = entitysystemd
+}
