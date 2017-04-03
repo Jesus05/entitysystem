@@ -16,10 +16,17 @@ bool Entity::add(const std::type_index &index, std::shared_ptr<void> ptr)
   return true;
 }
 
+static std::string toString(const int number)
+{
+  static char ret[256];
+  sprintf(ret, "%u", number);
+  return ret;
+}
+
 Entity::Entity(const std::string &name) :
   m_name(name)
 {
-  if (m_name == "") m_name = std::string("Entity_") + static_cast<char>('0' + nameNumber++);
+  if (m_name == "") m_name = std::string("Entity_") + toString(nameNumber++);
 }
 
 const std::string &Entity::name()
