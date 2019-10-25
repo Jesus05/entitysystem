@@ -3,6 +3,8 @@ CONFIG += console c++14
 CONFIG -= app_bundle
 CONFIG -= qt
 
+include(..\third\flags.pri)
+
 SOURCES += \
     ../src/engine.cpp \
     ../src/system.cpp \
@@ -27,9 +29,13 @@ HEADERS += \
     ../src/entitystatemachine.h \
     system_mock.h
 
-INCLUDEPATH += ../include ../src
+INCLUDEPATH += \
+  ../include \
+  ../src \
+  ../third/third_googletest/googletest/googlemock/include \
+  ../third/third_googletest/googletest/googletest/include
 
-LIBS += -L../lib/ -L../lib/gtest -L../lib/gmock
+LIBS += -L../lib/ -L../third/lib
 
 #QMAKE_CXXFLAGS -= -O2
 #QMAKE_CXXFLAGS += -Ofast
@@ -43,14 +49,6 @@ LIBS += -L../lib/ -L../lib/gtest -L../lib/gmock
 
 #QMAKE_LFLAGS_RELEASE -= -O1
 
-CONFIG(release, debug|release):LIBS += -lgmock_main
-CONFIG(release, debug|release):LIBS += -lgtest
-#CONFIG(release, debug|release):LIBS += -lgtest_main
-CONFIG(release, debug|release):LIBS += -lgmock
-
-
-CONFIG(debug, debug|release):LIBS += -lgmock_maind
-CONFIG(debug, debug|release):LIBS += -lgtestd
-#CONFIG(debug, debug|release):LIBS += -lgtest_maind
-CONFIG(debug, debug|release):LIBS += -lgmockd
+CONFIG(debug, debug|release):LIBS += -lgtestmock
+CONFIG(debug, debug|release):LIBS += -lgtestmockd
 
