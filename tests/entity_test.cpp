@@ -4,6 +4,8 @@
 
 #include <memory>
 
+namespace  {
+
 class Entity_test : public ::testing::Test
 {
   protected:
@@ -16,6 +18,8 @@ struct Place
 struct Draw
 {
 };
+
+}
 
 TEST_F(Entity_test, smoke)
 {

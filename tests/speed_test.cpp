@@ -20,6 +20,8 @@ int speed_test();
 ////  speed_test();
 //};
 
+namespace {
+
 struct Draw
 {
 };
@@ -154,6 +156,8 @@ struct EmptyAllSystem : public System<Draw, Place, Accelerator, Velocity>
 struct EmptyEmptySystem : public System<>
 {
 };
+
+}
 
 int speed_test()
 {

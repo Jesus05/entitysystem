@@ -4,6 +4,8 @@
 
 #include "entity.h"
 
+namespace {
+
 struct Position
 {
 };
@@ -11,6 +13,8 @@ struct Position
 struct Draw
 {
 };
+
+}
 
 TEST(State_test, smoke)
 {
