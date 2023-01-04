@@ -1,5 +1,6 @@
 #!python
 import os
+import fnmatch
 
 opts = Variables([], ARGUMENTS)
 
@@ -18,6 +19,7 @@ opts.Add(PathVariable('target_name', 'The library name.', 'libecs', PathVariable
 godot_headers_path = "godot-cpp/godot-headers/"
 cpp_bindings_path = "godot-cpp/"
 cpp_library = "libgodot-cpp"
+debug_postfix = ""
 
 # only support 64 at this time..
 bits = 64
@@ -87,21 +89,29 @@ elif env['platform'] == "windows":
 
 if env['target'] in ('debug', 'd'):
     cpp_library += '.debug'
+    debug_postfix = 'd'
 else:
     cpp_library += '.release'
 
 cpp_library += '.' + str(bits)
 
 # make sure our binding library is properly includes
-env.Append(CPPPATH=['.', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/'])
-env.Append(LIBPATH=[cpp_bindings_path + 'bin/'])
+#env.Append(CPPPATH=['.', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/'])
+#env.Append(LIBPATH=[cpp_bindings_path + 'bin/'])
 #env.Append(LIBS=[cpp_library])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=['src/'])
-sources = Glob('src/*.cpp')
 
-library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
+sources = []
+for root, dirs, files in os.walk('src/'):
+    for filename in fnmatch.filter(files, '*.cpp'):
+        if filename != "main.cpp":
+            sources.append(os.path.join(root, filename))
+
+#sources = Glob('src/*.cpp')
+
+library = env.SharedLibrary(target=env['target_path'] + env['target_name'] + debug_postfix , source=sources)
 
 Default(library)
 
