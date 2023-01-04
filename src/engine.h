@@ -5,11 +5,12 @@
 #include <map>
 #include <memory>
 #include <vector>
+#include <string>
 
-struct Entity;
+class Entity;
 class SystemBase;
 
-struct Engine : public std::enable_shared_from_this<Engine>
+class Engine : public std::enable_shared_from_this<Engine>
 {
   private:
     typedef std::pair<int, std::shared_ptr<SystemBase>> TSystemPair;
