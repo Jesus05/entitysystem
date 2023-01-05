@@ -18,8 +18,7 @@ opts.Add(PathVariable('target_name', 'The library name.', 'libecs', PathVariable
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "godot-cpp/godot-headers/"
 cpp_bindings_path = "godot-cpp/"
-cpp_library = "libgodot-cpp"
-debug_postfix = ""
+cpp_library = ""
 
 # only support 64 at this time..
 bits = 64
@@ -89,7 +88,6 @@ elif env['platform'] == "windows":
 
 if env['target'] in ('debug', 'd'):
     cpp_library += '.debug'
-    debug_postfix = 'd'
 else:
     cpp_library += '.release'
 
@@ -111,7 +109,7 @@ for root, dirs, files in os.walk('src/'):
 
 #sources = Glob('src/*.cpp')
 
-library = env.SharedLibrary(target=env['target_path'] + env['target_name'] + debug_postfix , source=sources)
+library = env.StaticLibrary(target=env['target_path'] + env['target_name'] + cpp_library , source=sources)
 
 Default(library)
 
