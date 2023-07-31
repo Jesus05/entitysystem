@@ -1,11 +1,12 @@
 TEMPLATE = lib
-CONFIG += c++14
+CONFIG += c++20
 CONFIG -= app_bundle
 CONFIG -= qt
 CONFIG += staticlib
 
 SOURCES += main.cpp \
     engine.cpp \
+    helpers.cpp \
     system.cpp \
     entity.cpp \
     typeindexer.cpp \
@@ -14,6 +15,7 @@ SOURCES += main.cpp \
 HEADERS += \
     engine.h \
     debugmacros.h \
+    helpers.h \
     system.h \
     entity.h \
     entity.hpp \
